@@ -1,0 +1,37 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+      <h2>
+        <%= @title %> <%= content_tag(:small, @susbtitle) if @susbtitle%>
+
+        <% if @page_action %>
+          <%= link_to @page_action[:title], @page_action[:url],
+                      {class: "btn btn-primary pull-right"}.merge(@page_action[:options] || {}) %>
+        <% elsif @page_actions %>
+          <div class="btn-group pull-right">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <%= @page_actions[:title] %> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <% @page_actions[:actions].each do |action| %>
+                <li><%= link_to action[:title], action[:url], action[:options] || {} %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+      </h2>
+
+      <% if @breadcrumbs %>
+      <ol class="breadcrumb">
+        <% @breadcrumbs.each do |crumb| %>
+          <li>
+            <%= crumb %>
+          </li>
+        <% end %>
+        <li class="active">
+            <strong><%= @title %></strong>
+        </li>
+      </ol>
+      <% end %>
+  </div>
+</div>

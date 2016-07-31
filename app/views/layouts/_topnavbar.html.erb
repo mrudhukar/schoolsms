@@ -1,0 +1,38 @@
+<div class="row border-bottom">
+  <nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+      <span class="minimalize-styl-2 text-white">
+        <big>
+         Sarada Public School
+        </big>
+      </span>
+      
+<!--       <form role="search" class="navbar-form-custom" method="post" action="/">
+        <div class="form-group">
+          <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search" />
+        </div>
+      </form> -->
+    </div>
+
+    <ul class="nav navbar-top-links navbar-right">
+
+      <% if user_signed_in? %>        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            <%= current_user.name %><span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li>
+              <%= link_to raw('<i class="fa fa-sign-out"></i>' + "Log out"), destroy_user_session_path, method: :delete %>
+            </li>
+          </ul>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to "Login", new_user_session_path %>
+        </li>
+        <% end %>
+    </ul>
+  </nav>
+</div>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<%= render 'layouts/head' %>
+
+<body class="fixed-sidebar md-skin fixed-nav">
+  <div id="wrapper">
+    <%= render 'layouts/navigation' %>
+    <% # render partial: 'layouts/navbar' %>
+
+    <div id="page-wrapper" class="gray-bg">
+      <%= render 'layouts/topnavbar' %>
+
+      <%= render partial: 'layouts/header' if @title %>
+      <%= render partial: 'layouts/flash' if alert.present? || notice.present? %>
+
+      <!-- Main view  -->
+      <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+          <%= yield %>
+        </div>
+      </div>
+
+
+      <!-- Footer -->
+      <%= render 'layouts/footer' %>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </div>
+  </div>
+</body>
+
+</html>

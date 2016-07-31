@@ -1,0 +1,25 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+  <div class="sidebar-collapse">
+
+    <ul class="nav metismenu" id="side-menu">
+      <li class="nav-header">
+        <div class="dropdown profile-element">
+          <%= image_tag("logo.jpg", width: 170) %>
+        </div>
+      </li>
+      <% if user_signed_in? %>
+        <%= render_tab(TabConstants::BRANCHES, "#") do %>
+          <ul class="nav nav-second-level collapse <%= 'in' if [TabConstants::MAIN_BRANCH, TabConstants::SECOND_BRANCH].include?(current_tab) %>">
+            <%= render_tab(TabConstants::MAIN_BRANCH, "#") %>
+            <%= render_tab(TabConstants::SECOND_BRANCH, "#") %>
+          </ul>
+
+        <% end %>
+        
+        <%= render_tab(TabConstants::STUDENTS, students_path) %>
+        <%= render_tab(TabConstants::IMPORT, students_path) %>
+      <% end %>
+    </ul>
+
+</div>
+</nav>
