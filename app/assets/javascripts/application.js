@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker/core
+//= require cocoon
 
 // Inspinia Plugins
 //= require metisMenu/jquery.metisMenu.js
@@ -33,7 +34,7 @@ $(function() {
 
 jQuery(function() {
   return $('.datepicker').datepicker({
-    startView: 1,
+    startView: 2,
     format: "dd-mm-yyyy",
     startDate: "11/05/1987"
   });

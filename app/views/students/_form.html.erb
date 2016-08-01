@@ -1,52 +1,55 @@
 <div class="col-xs-12">
   <div class="ibox">
     <div class="ibox-content clearfix">
-      <%= simple_form_for(@student,
-                    html: { class: 'form-horizontal col-lg-10' },
-                    wrapper: :horizontal_form,
-                    :validate => true) do |f| %>
+      <%= simple_form_for(@student, html: { class: 'form-horizontal col-lg-10' }, wrapper: :horizontal_form, :validate => true) do |f| %>
 
-        <%= f.input :first_name %>
-        <%= f.input :middle_name %>
-        <%= f.input :last_name %>
+        <div class="field row form-group">
+          <label class="string required col-sm-3 control-label col-xs-12">
+            <abbr title="required">*</abbr>
+            Name
+          </label>
+          <div class="col-sm-9 col-xs-12 row">
+            <div class="col-xs-12 col-sm-4">
+              <%= f.input_field :first_name, placeholder: 'First Name', class: "form-control" %>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+              <%= f.input_field :middle_name, placeholder: 'Middle Name', class: "form-control" %>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+              <%= f.input_field :last_name, placeholder: 'Last Name',  class: "form-control" %>
+            </div>
+          </div>
+        </div>
 
-        <%= f.input :phone %>
-        <%= f.input :email %>
+        <%= f.input :phone, label: "Student's Phone" %>
 
-        <%= f.input :gender, collection: ["Male","Female"]%>
-        <%= f.input :date_of_birth, input_html: { class: 'date datepicker' }, :hint => "dd-mm-yyyy"%>
-
+        <%= f.input :date_of_birth, as: :string, input_html: { class: 'date datepicker' }%>
+        <%= f.input :gender, collection: ["Male","Female"], input_html: { class: 'chosen-select' } %>
         <%= f.input :caste %>
-        <%= f.input :date_of_birth, label: "Joining Date", input_html: { class: 'date datepicker' }, :hint => "dd-mm-yyyy"%>
 
         
-        
+        <%= f.input :joined_on, as: :string, label: "Joining Date", input_html: { class: 'date datepicker' }%>
+
+        <div class="form-group">
+          <%= f.simple_fields_for :student_years do |cf| %>
+            <%= render 'student_years_fields', :f => cf %>
+          <% end %>
+        </div>
         
         <div class="form-group">
           <label class="string optional col-sm-3 control-label col-xs-12">
             Parents
           </label>
 
-          <ol class="col-sm-9 col-xs-12">
+          <ul class="col-sm-9 col-xs-12 list-unstyled">
             <%= f.simple_fields_for :parents do |pf| %>
-              <%= render 'parents_form', :f => pf %>
+              <%= render 'parent_fields', :f => pf %>
               <div class="">
-                <%= link_to_add_association 'Add more', f, :options %>
+                <%= link_to_add_association 'Add more', f, :parents %>
               </div>
             <% end %>
-          </ol>
+          </ul>
         </div>
-
-        <div class="form-group">
-          <label class="string optional col-sm-3 control-label col-xs-12">
-            Class Details
-          </label>
-
-          <%= f.simple_fields_for :class_students do |cf| %>
-            <%= render 'class_students_form', :f => cf %>
-          <% end %>
-        </div>
-
         
         <div class="form-group">
           <label class="string optional col-sm-3 control-label col-xs-12"></label>

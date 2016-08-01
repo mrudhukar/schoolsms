@@ -10,22 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160731064654) do
-
-  create_table "class_students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "student_id"
-    t.integer  "year",                        null: false
-    t.string   "class",                       null: false
-    t.string   "section"
-    t.string   "branch",     default: "Main", null: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.index ["student_id"], name: "index_class_students_on_student_id", using: :btree
-  end
+ActiveRecord::Schema.define(version: 20160801002251) do
 
   create_table "parents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id"
-    t.integer  "phone"
+    t.string   "phone"
     t.string   "name"
     t.string   "email"
     t.string   "relation"
@@ -35,11 +24,22 @@ ActiveRecord::Schema.define(version: 20160731064654) do
     t.index ["student_id"], name: "index_parents_on_student_id", using: :btree
   end
 
+  create_table "student_years", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "student_id"
+    t.integer  "academic_year",                  null: false
+    t.string   "classroom",                      null: false
+    t.string   "section"
+    t.string   "branch",        default: "Main", null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["student_id"], name: "index_student_years_on_student_id", using: :btree
+  end
+
   create_table "students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "first_name",                null: false
     t.string   "middle_name"
     t.string   "last_name"
-    t.integer  "phone"
+    t.string   "phone"
     t.string   "email"
     t.date     "date_of_birth"
     t.date     "joined_on"

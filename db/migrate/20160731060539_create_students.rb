@@ -5,7 +5,7 @@ class CreateStudents < ActiveRecord::Migration[5.0]
       t.string :middle_name
       t.string :last_name
 
-      t.integer :phone
+      t.string :phone
       t.string :email
       
       t.date :date_of_birth

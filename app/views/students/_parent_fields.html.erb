@@ -1,0 +1,9 @@
+<li class="nested-fields">
+  <%= f.input :relation, collection: Parent::RelationShip::ALL %>
+  <%= f.input :name %>
+  <%= f.input :phone %>
+
+  <div class="clearfix">
+    <%= link_to_remove_association "Remove option", f, class: "pull-right red" %>
+  </div>
+</li>
