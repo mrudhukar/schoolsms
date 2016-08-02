@@ -1,4 +1,14 @@
 <%= f.input :branch, collection: StudentYear::ClassRooms::BRANCHES, input_html: { class: 'chosen-select' } %>
 <%= f.input :classroom, collection: StudentYear::ClassRooms::ALL, input_html: { class: 'chosen-select' } %>
 <%= f.input :section, collection: StudentYear::ClassRooms::SECTIONS, input_html: { class: 'chosen-select' } %>
+<%= f.input :roll_number %>
+
+<div class="form-group string optional student_student_years_fees_payed">
+  <label class="string optional col-sm-3 control-label col-xs-12" for="student_student_years_attributes_0_fees_payed">Fees Payed</label>
+  <div class="col-sm-9 col-xs-12 checkbox">
+    <%= f.input_field :fees_payed, inline_label: 'Yes' %>
+  </div>
+</div>
+
+
 <%= f.input :academic_year, collection: [Date.today.year - 1, Date.today.year], input_html: { class: 'chosen-select' } %>

@@ -16,6 +16,11 @@ class Student < ApplicationRecord
 
   validates :phone, allow_blank: true, length: {is: 10}, numericality: {greater_than: 0}
 
+  validates :aadhar_number, allow_blank: true, uniqueness: true
+  validates :admission_number, allow_blank: true, uniqueness: true
+
+  validates :joined_class, allow_blank: true, inclusion: {in: StudentYear::ClassRooms::ALL, message: "%{value} is not a valid class"}
+
   scope :current, -> {where(status: Status::ACTIVE)}
   scope :old, -> {where(status: Status::INACTIVE)}
 
@@ -31,7 +36,6 @@ class Student < ApplicationRecord
 
   def name
     name = self.first_name
-    name << " #{self.middle_name}" if self.middle_name.present?
     name << " #{self.last_name}" if self.last_name.present?
 
     name

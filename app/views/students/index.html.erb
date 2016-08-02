@@ -1,2 +1,41 @@
 <% @title = "Students" %>
 <% @page_action = {title: "New Student", url: new_student_path() } %>
+
+<div class="ibox">
+  <div class="ibox-title">
+    <b>Showing all <%= @students.total_entries %> students </b>
+  </div>
+  <div class="ibox-content">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Branch</th>
+          <th>Class</th>
+          <th>Section</th>
+          <th>Rollnumber</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @students.each do |student| %>
+          <tr>
+            <td><%= link_to(student.name, student) %></td>
+            <td><%= student.current_student_year.branch %></td>
+            <td><%= student.current_student_year.classroom %></td>
+            <td><%= student.current_student_year.section %></td>
+            <td><%= student.current_student_year.roll_number %></td>
+            
+            <td>
+              <%= drop_down_button([
+                link_to('Edit', edit_student_path(student)), 
+                link_to('Send SMS', "", data: {confirm: 'Are you sure?'})
+              ])%>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate @students, renderer: BootstrapPagination::Rails %>
+  </div>
+</div>

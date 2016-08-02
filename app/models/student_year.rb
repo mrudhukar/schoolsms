@@ -9,10 +9,8 @@ class StudentYear < ApplicationRecord
 
   validates :student, presence: true
   validates :academic_year, presence: true, inclusion: { in: 2014..Date.today.year }, 
-    format: { 
-      with: /(19|20)\d{2}/i, 
-      message: "should be a four-digit year"
-    }
+    format: {with: /(19|20)\d{2}/i, message: "should be a four-digit year"},
+    uniqueness: { scope: :student_id}
 
   validates :classroom, presence: true, inclusion: {in: ClassRooms::ALL, message: "%{value} is not a valid class"}
   validates :section, inclusion: {in: ClassRooms::SECTIONS, message: "%{value} is not a valid section"}

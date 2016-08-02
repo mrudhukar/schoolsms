@@ -1,6 +1,7 @@
 class StudentsController < ApplicationController
   def index
     @tab = TabConstants::STUDENTS
+    @students = Student.current.includes(:student_years, :parents).page(params[:page]).per_page(20)
   end
 
   def new
@@ -25,6 +26,15 @@ class StudentsController < ApplicationController
 
   def edit
     set_student_and_tab
+    #TBD
+  end
+
+  def update
+    #TBD
+  end
+
+  def destroy
+    #TBD
   end
 
   private

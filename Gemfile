@@ -61,3 +61,7 @@ gem 'chosen-rails'
 
 gem 'simple_form'
 gem "cocoon" # For Nested Forms
+
+gem 'filterrific'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'

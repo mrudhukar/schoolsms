@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160801002251) do
+ActiveRecord::Schema.define(version: 20160802005828) do
 
   create_table "parents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id"
@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(version: 20160801002251) do
     t.string   "email"
     t.string   "relation"
     t.string   "occupation"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "qualification"
+    t.string   "income"
     t.index ["student_id"], name: "index_parents_on_student_id", using: :btree
   end
 
@@ -32,11 +34,13 @@ ActiveRecord::Schema.define(version: 20160801002251) do
     t.string   "branch",        default: "Main", null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "roll_number"
+    t.boolean  "fees_payed"
     t.index ["student_id"], name: "index_student_years_on_student_id", using: :btree
   end
 
   create_table "students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "first_name",                null: false
+    t.string   "first_name",                                 null: false
     t.string   "middle_name"
     t.string   "last_name"
     t.string   "phone"
@@ -46,9 +50,25 @@ ActiveRecord::Schema.define(version: 20160801002251) do
     t.date     "left_on"
     t.string   "gender"
     t.string   "caste"
-    t.integer  "status",        default: 0, null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "status",                         default: 0, null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.string   "aadhar_number"
+    t.string   "admission_number"
+    t.string   "religion"
+    t.string   "ward_type"
+    t.string   "mother_tounge"
+    t.string   "disability"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.text     "address",          limit: 65535
+    t.text     "joined_class",     limit: 65535
+    t.text     "conduct",          limit: 65535
+    t.text     "remarks",          limit: 65535
+    t.string   "qualified_class"
+    t.date     "tc_apply_date"
+    t.date     "relieving_date"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

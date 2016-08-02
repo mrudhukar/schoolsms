@@ -9,26 +9,37 @@
             Name
           </label>
           <div class="col-sm-9 col-xs-12 row">
-            <div class="col-xs-12 col-sm-4">
+            <div class="col-xs-12 col-sm-6">
               <%= f.input_field :first_name, placeholder: 'First Name', class: "form-control" %>
             </div>
-            <div class="col-xs-12 col-sm-4">
-              <%= f.input_field :middle_name, placeholder: 'Middle Name', class: "form-control" %>
-            </div>
-            <div class="col-xs-12 col-sm-4">
+            <div class="col-xs-12 col-sm-6">
               <%= f.input_field :last_name, placeholder: 'Last Name',  class: "form-control" %>
             </div>
           </div>
         </div>
 
+        <%= f.input :aadhar_number %>
+
         <%= f.input :phone, label: "Student's Phone" %>
+        <%= f.input :email, label: "Student's Email" %>
 
         <%= f.input :date_of_birth, as: :string, input_html: { class: 'date datepicker' }%>
         <%= f.input :gender, collection: ["Male","Female"], input_html: { class: 'chosen-select' } %>
+        <%= f.input :mother_tounge %>
+        <%= f.input :religion %>
         <%= f.input :caste %>
+        <%= f.input :disability %>
 
-        
-        <%= f.input :joined_on, as: :string, label: "Joining Date", input_html: { class: 'date datepicker' }%>
+        <%= f.input :address %>
+        <%= f.input :ward_type %>
+
+        <hr/>
+
+        <%= f.input :admission_number %>
+        <%= f.input :joined_on, as: :string, label: "Admission Date", input_html: { class: 'date datepicker' }, hint: "The date on which the student joined the shcool." %>
+        <%= f.input :joined_class, collection: StudentYear::ClassRooms::ALL, input_html: { class: 'chosen-select' }, label: "Admission Class", hint: "The class which the student joined during admission." %>
+
+        <hr/>
 
         <div class="form-group">
           <%= f.simple_fields_for :student_years do |cf| %>
@@ -36,6 +47,8 @@
           <% end %>
         </div>
         
+        <hr/>
+
         <div class="form-group">
           <label class="string optional col-sm-3 control-label col-xs-12">
             Parents
