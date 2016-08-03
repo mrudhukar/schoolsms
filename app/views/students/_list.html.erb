@@ -1,0 +1,45 @@
+<div class="ibox" id="filterrific_results">
+  <% if students.any? %>
+    <div class="ibox-title">
+      <b>Showing all <%= students.total_entries %> students </b>
+    </div>
+    <div class="ibox-content">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Branch</th>
+            <th>Class</th>
+            <th>Section</th>
+            <th>Rollnumber</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% students.each do |student| %>
+            <% current_student_year = student.student_years[0] %>
+            <tr>
+              <td><%= link_to(student.name, student) %></td>
+              <td><%= current_student_year.branch %></td>
+              <td><%= current_student_year.classroom %></td>
+              <td><%= current_student_year.section %></td>
+              <td><%= current_student_year.roll_number %></td>
+              
+              <td>
+                <%= drop_down_button([
+                  link_to('Edit', edit_student_path(student)), 
+                  link_to('Send SMS', "", data: {confirm: 'Are you sure?'})
+                ])%>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= will_paginate students, renderer: BootstrapPagination::Rails %>
+    </div>
+  <% else %>
+    <div class="ibox-title">
+      There are no students matching the criteria
+    </div>
+  <% end %>  
+</div>

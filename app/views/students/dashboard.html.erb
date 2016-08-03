@@ -1,0 +1,23 @@
+<% @title = "Welcome #{current_user.name}" %>
+
+<div class="ibox">
+  <div class="ibox-title">
+    <h5>Actions</h5>
+  </div>
+  <div class="ibox-content">
+    <div class="row">
+      <div class="col-xs-12 col-md-3">
+        <%= link_to("Enter New Admission", new_student_path(), class: "btn btn-primary col-xs-12") %>
+      </div>
+      <div class="col-xs-12 col-md-3">
+        <%= link_to("Send SMS", new_student_path(), class: "btn btn-primary col-xs-12 disabled") %>
+      </div>
+      <div class="col-xs-12 col-md-3">
+        <%= link_to("Generate TC", new_student_path(), class: "btn btn-primary col-xs-12 disabled") %>
+      </div>
+      <div class="col-xs-12 col-md-3">
+        <%= link_to("Generate Hall Tickets", new_student_path(), class: "btn btn-primary col-xs-12 disabled") %>
+      </div>
+    </div>
+  </div>  
+</div>

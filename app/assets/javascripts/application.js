@@ -15,6 +15,7 @@
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker/core
 //= require cocoon
+//= require filterrific/filterrific-jquery
 
 // Inspinia Plugins
 //= require metisMenu/jquery.metisMenu.js

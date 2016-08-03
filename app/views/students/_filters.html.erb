@@ -1,0 +1,36 @@
+<%#
+  Filterrific adds the `form_for_filterrific` view helper:
+  * adds dom id 'filterrific_filter'
+  * applies javascript behaviors:
+      * AJAX form submission on change
+      * AJAX spinner while AJAX request is being processed
+  * sets form_for options like :url, :method and input name prefix
+%>
+<%= form_for_filterrific @filterrific, html: {class: 'form-inline' } do |f| %>
+    <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+  <span class="has-next-1">
+    <%= f.text_field :search_query, class: 'filterrific-periodically-observed form-control ', placeholder: "Enter name/rollnumber" %>
+  </span>
+
+  <span class="select2-wrapper has-next-1">
+    <%= f.select(:with_branch, StudentYear::ClassRooms::BRANCHES, {include_blank: 'All Branches' }, { class: 'chosen-select form-control' }) %>
+  </span>
+
+  <span class="select2-wrapper has-next-1">
+    <%= f.select(:with_klass, StudentYear::ClassRooms::ALL, { include_blank: 'All Classes' }, { class: 'chosen-select form-control'}) %>
+  </span>
+  <% #TBD We can enable multiselect here%>
+
+  <span class="select2-wrapper has-next-1">
+    <%= f.select(:with_sections, StudentYear::ClassRooms::SECTIONS, { include_blank: 'All Sections' }, { class: 'chosen-select form-control'}) %>
+  </span>
+  <% #TBD We can enable multiselect here%>
+
+  <%# add an automated spinner to your form when the list is refreshed %>
+  <%= render_filterrific_spinner %>
+
+  <span class="pull-right">
+    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+      <%= link_to 'Reset filters', reset_filterrific_url %>
+  </span>
+<% end %>

@@ -8,6 +8,7 @@
         </div>
       </li>
       <% if user_signed_in? %>
+        <%= render_tab(TabConstants::DASHBOARD, dashboard_students_path) %>
         <%= render_tab(TabConstants::BRANCHES, "#") do %>
           <ul class="nav nav-second-level collapse <%= 'in' if [TabConstants::MAIN_BRANCH, TabConstants::SECOND_BRANCH].include?(current_tab) %>">
             <%= render_tab(TabConstants::MAIN_BRANCH, "#") %>

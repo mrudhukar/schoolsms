@@ -1,7 +1,27 @@
 class StudentsController < ApplicationController
+
+  def dashboard
+    @tab = TabConstants::DASHBOARD
+  end
+
   def index
     @tab = TabConstants::STUDENTS
-    @students = Student.current.includes(:student_years, :parents).page(params[:page]).per_page(20)
+
+    @filterrific = initialize_filterrific(
+      Student,
+      params[:filterrific],
+      default_filter_params: {},
+    ) or return
+    @students = @filterrific.find.current.joins(:student_years).where("student_years.academic_year = ?", StudentYear.current_year).includes(:student_years).page(params[:page]).per_page(20)
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  rescue ActiveRecord::RecordNotFound => e
+    # There is an issue with the persisted param_set. Reset it.
+    puts "Had to reset filterrific params: #{ e.message }"
+    redirect_to(reset_filterrific_url(format: :html)) and return
   end
 
   def new
@@ -16,7 +36,7 @@ class StudentsController < ApplicationController
     if @student.save
       redirect_to students_path, notice: 'Student was successfully created.'
     else
-      render :new
+      render :new, error: "Please fix the erors"
     end
   end
 

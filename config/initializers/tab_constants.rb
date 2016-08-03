@@ -1,4 +1,5 @@
 module TabConstants
+  DASHBOARD = "Dashboard"
   BRANCHES = "Branches"
   STUDENTS = "All Students"
   IMPORT = "Import Students"

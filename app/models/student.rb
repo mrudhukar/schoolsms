@@ -24,10 +24,23 @@ class Student < ApplicationRecord
   scope :current, -> {where(status: Status::ACTIVE)}
   scope :old, -> {where(status: Status::INACTIVE)}
 
+  scope :with_branch, ->(branch) { joins(:student_years).where("student_years.branch = ?", branch) }
+  scope :with_klass, ->(klass) { joins(:student_years).where("student_years.classroom = ?", klass) }
+  scope :with_sections, ->(section) { joins(:student_years).where("student_years.section = ?", section) }
+
   accepts_nested_attributes_for :student_years, :reject_if => :all_blank
   accepts_nested_attributes_for :parents, :reject_if => :all_blank, :allow_destroy => true
   validates_associated :student_years
   validates_associated :parents
+
+  filterrific(
+    available_filters: [
+      :with_branch,
+      :with_klass,
+      :with_sections,
+      :search_query,
+        ]
+    )
 
 
   def current_student_year
@@ -35,9 +48,9 @@ class Student < ApplicationRecord
   end
 
   def name
-    name = self.first_name
-    name << " #{self.last_name}" if self.last_name.present?
+    fullname = self.first_name
+    fullname += " #{self.last_name}" if self.last_name.present?
 
-    name
+    fullname
   end
 end
