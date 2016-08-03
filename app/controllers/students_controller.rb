@@ -6,13 +6,14 @@ class StudentsController < ApplicationController
 
   def index
     @tab = TabConstants::STUDENTS
+    default_filters = {with_academic_year: StudentYear.current_year, with_status: Student::Status::ACTIVE}
+    all_filters = (params[:filterrific] || {}).merge(default_filters)
 
     @filterrific = initialize_filterrific(
       Student,
-      params[:filterrific],
-      default_filter_params: {},
+      all_filters,
     ) or return
-    @students = @filterrific.find.current.joins(:student_years).where("student_years.academic_year = ?", StudentYear.current_year).includes(:student_years).page(params[:page]).per_page(20)
+    @students = @filterrific.find.includes(:student_years).page(params[:page]).per_page(20)
 
     respond_to do |format|
       format.html
