@@ -27,6 +27,7 @@ class Student < ApplicationRecord
   scope :with_branch, ->(branch) { joins(:student_years).where("student_years.branch = ?", branch) }
   scope :with_klass, ->(klass) { joins(:student_years).where("student_years.classroom = ?", klass) }
   scope :with_sections, ->(section) { joins(:student_years).where("student_years.section = ?", section) }
+  scope :search_query, ->(query) { joins(:student_years).where("student_years.roll_number LIKE ? OR students.first_name LIKE ? OR students.last_name LIKE ?", "%#{query}%","#{query}%","#{query}%") }
 
   accepts_nested_attributes_for :student_years, :reject_if => :all_blank
   accepts_nested_attributes_for :parents, :reject_if => :all_blank, :allow_destroy => true
