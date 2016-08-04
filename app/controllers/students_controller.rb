@@ -6,8 +6,8 @@ class StudentsController < ApplicationController
 
   def index
     @tab = TabConstants::STUDENTS
-    default_filters = {with_academic_year: StudentYear.current_year, with_status: Student::Status::ACTIVE}
-    all_filters = (params[:filterrific] || {}).merge(default_filters)
+    all_filters = (params[:filterrific] || {}).merge({with_status: Student::Status::ACTIVE})
+    all_filters[:with_academic_year] = StudentYear.current_year if all_filters[:with_academic_year].blank?
 
     @filterrific = initialize_filterrific(
       Student,
@@ -33,11 +33,11 @@ class StudentsController < ApplicationController
   end
 
   def create
-    @student = Student.new(student_params)
+    @student = Student.new(student_create_params)
     if @student.save
       redirect_to students_path, notice: 'Student was successfully created.'
     else
-      render :new, error: "Please fix the erors"
+      render :new, alert: "Please fix the errors"
     end
   end
 
@@ -47,15 +47,48 @@ class StudentsController < ApplicationController
 
   def edit
     set_student_and_tab
-    #TBD
+    @is_edit_class = (params[:syear] == "true")
+    @student_year = @student.student_years.new(academic_year: StudentYear.current_year) if @is_edit_class
   end
 
   def update
-    #TBD
+    set_student_and_tab
+    if @student.update(profile_update_params)
+      redirect_to @student, notice: 'Student was successfully updated.'
+    else
+      render :edit, alert: "Please fix the errors"
+    end
+  end
+
+  def update_class
+    set_student_and_tab
+    @is_edit_class = true
+
+    @student_year = @student.student_years.new(student_year_params)
+    if @student_year.save
+      redirect_to students_path, notice: "Student's class was successfully created."
+    else
+      render :edit, alert: "Please fix the errors"
+    end
   end
 
   def destroy
     #TBD
+  end
+
+  def import
+    @tab = TabConstants::IMPORT
+    if request.get?
+      @import_student = ImportStudent.new
+    else
+      #POST
+      @import_student = ImportStudent.new(params[:import_student])
+      if @import_student.save
+        redirect_to students_path(), notice: "Imported student records successfully."
+      else
+        redirect_to import_students_path, alert: "#{@import_student.errors.full_messages.join}"
+      end
+    end
   end
 
   private
@@ -65,11 +98,26 @@ class StudentsController < ApplicationController
     @tab = TabConstants::STUDENTS
   end
 
-  def student_params
-    params.require(:student).permit(:first_name, :last_name, :aadhar_number, :phone, :email, :date_of_birth, 
+  def profile_params
+    [
+      :first_name, :last_name, :aadhar_number, :phone, :email, :date_of_birth, 
       :gender, :mother_tounge, :caste, :religion, :ward_type, :disability, :address, 
-      :joined_on, :admission_number, :joined_class,
-      student_years_attributes: [:id, :academic_year, :branch, :section, :classroom, :roll_number, :fees_payed], 
-      parents_attributes: [:id, :name, :phone, :relation, :email, :income, :qualification, :occupation, :_destroy ])
-    end
+      :joined_on, :admission_number, :joined_class, 
+      parents_attributes: [:id, :name, :phone, :relation, :email, :income, :qualification, :occupation, :_destroy ]
+    ]
+  end
+
+  def profile_update_params
+    params.require(:student).permit(profile_params)
+  end
+
+  def student_create_params
+    all_params = profile_params
+    all_params << {student_years_attributes: [:id, :academic_year, :branch, :section, :classroom, :roll_number, :fees_payed]}
+    params.require(:student).permit(all_params)
+  end
+
+  def student_year_params
+    params.require(:student_year).permit(:academic_year, :branch, :section, :classroom, :roll_number, :fees_payed)
+  end
 end

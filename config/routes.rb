@@ -5,6 +5,11 @@ Rails.application.routes.draw do
   resources :students do
     collection do
       get 'dashboard'
+      get 'import'
+      post 'import'
+    end
+    member do
+      post 'update_class'
     end
   end
 

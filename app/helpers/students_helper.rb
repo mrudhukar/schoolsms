@@ -16,4 +16,12 @@ module StudentsHelper
       image_tag("student_boy_icon.jpg", class: "img-circle circle-border m-b-md")
     end
   end
+
+  def academic_year_array
+    array = []
+    [Date.today.year - 2, Date.today.year - 1, Date.today.year, Date.today.year + 1].each do |year|
+      array << ["Year #{year}", year]
+    end
+    array
+  end
 end

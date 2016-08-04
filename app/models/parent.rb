@@ -1,6 +1,9 @@
 class Parent < ApplicationRecord
   module RelationShip
-    ALL = ["Mother", "Father", "Gaurdian"]
+    FATHER = "Father"
+    MOTHER = "Mother"
+    GAURDIAN = "Gaurdian"
+    ALL = [FATHER, MOTHER, GAURDIAN]
   end
 
   belongs_to :student, inverse_of: :parents

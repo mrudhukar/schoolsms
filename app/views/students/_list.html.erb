@@ -28,6 +28,7 @@
               <td>
                 <%= drop_down_button([
                   link_to('Edit', edit_student_path(student)), 
+                  link_to('Update Class', edit_student_path(student, syear: true)),
                   link_to('Send SMS', "", data: {confirm: 'Are you sure?'})
                 ])%>
               </td>

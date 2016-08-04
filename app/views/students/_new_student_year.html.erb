@@ -1,0 +1,18 @@
+<div class="col-xs-12">
+  <div class="ibox">
+    <div class="ibox-content clearfix">
+      <%= simple_form_for(@student_year, url: update_class_student_path(@student), method: 'post', html: { class: 'form-horizontal col-lg-10' }, wrapper: :horizontal_form, :validate => true) do |f| %>
+
+        <%= render 'student_years_fields', :f => f %>
+        
+        <div class="form-group">
+          <label class="string optional col-sm-3 control-label col-xs-12"></label>
+          <div class="col-sm-9 col-xs-12">
+            <%= f.button :submit, class: "btn btn-primary"%>
+            <%= link_to("Cancel", students_path(), class: "btn btn-default") %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -47,6 +47,14 @@ class Student < ApplicationRecord
         ]
     )
 
+  def self.find_by_row
+    params = {first_name: row["first_name"], gender: row["gender"]}
+
+    params[:aadhar_number] = row["aadhar_number"] if row["aadhar_number"]
+    params[:admission_number] = row["admission_number"] if row["admission_number"]
+    params[:date_of_birth] = row["date_of_birth"].to_date if row["date_of_birth"]
+    Student.where(params).first
+  end
 
   def current_student_year
     self.student_years.first
@@ -55,7 +63,8 @@ class Student < ApplicationRecord
   def name
     fullname = self.first_name
     fullname += " #{self.last_name}" if self.last_name.present?
-
     fullname
   end
+
+  
 end

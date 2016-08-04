@@ -1,4 +1,8 @@
 <% @breadcrumbs = [link_to('All Students', students_path)] %>
-<% @title = "Edit Student" %>
+<% @title = @is_edit_class ? "Update Class Details" : "Edit Student" %>
 
-<%= render 'form' %>
+<% if @is_edit_class %>
+  <%= render 'new_student_year' %>
+<% else %>
+  <%= render 'form' %>
+<% end %>

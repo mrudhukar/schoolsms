@@ -39,13 +39,15 @@
         <%= f.input :joined_on, as: :string, label: "Admission Date", input_html: { class: 'date datepicker' }, hint: "The date on which the student joined the shcool." %>
         <%= f.input :joined_class, collection: StudentYear::ClassRooms::ALL, input_html: { class: 'chosen-select' }, label: "Admission Class", hint: "The class which the student joined during admission." %>
 
-        <hr/>
+        <% if @student.new_record? %>
+          <hr/>
 
-        <div class="form-group">
-          <%= f.simple_fields_for :student_years do |cf| %>
-            <%= render 'student_years_fields', :f => cf %>
-          <% end %>
-        </div>
+          <div class="form-group">
+            <%= f.simple_fields_for :student_years do |cf| %>
+              <%= render 'student_years_fields', :f => cf %>
+            <% end %>
+          </div>
+        <% end %>
         
         <hr/>
 

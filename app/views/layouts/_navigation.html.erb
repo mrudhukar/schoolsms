@@ -14,11 +14,10 @@
             <%= render_tab(TabConstants::MAIN_BRANCH, "#") %>
             <%= render_tab(TabConstants::SECOND_BRANCH, "#") %>
           </ul>
-
         <% end %>
         
         <%= render_tab(TabConstants::STUDENTS, students_path) %>
-        <%= render_tab(TabConstants::IMPORT, students_path) %>
+        <%= render_tab(TabConstants::IMPORT, import_students_path) %>
       <% end %>
     </ul>
 

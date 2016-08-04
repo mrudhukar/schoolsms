@@ -1,0 +1,66 @@
+<% @title="Import Students" %>
+
+<div class="ibox-content">
+<%= form_for @import_student, url: import_students_url, html: {class: "form-horizontal"} do |f| %>
+  <ol>
+    <hr/>
+    <li class="has-below-1"> Enter the required details of the students in the template
+    <ul>
+      <li>First Name</li>
+      <li>Last Name</li>
+      <li>Aadhar number</li>
+      <li>Phone</li>
+      <li>Email</li>
+      <li>Date Of Birth</li>
+      <li>Gender</li>
+      <li>Mother Tounge</li>
+      <li>Religion</li>
+      <li>Caste</li>
+      <li>Disability</li>
+      <li>Address</li>
+      <li>Ward Type</li>
+      <li>Admission Number</li>
+      <li>Admission Date</li>
+      <li>Admission Class</li>
+      <li>Branch</li>
+      <li>Class</li>
+      <li>Section</li>
+      <li>Roll Number</li>
+      <li>Feed Payed</li>
+      <li>Father Name</li>
+      <li>Father Phone</li>
+      <li>Father Email</li>
+      <li>Father Qualification</li>
+      <li>Father Occupation</li>
+      <li>Father Income</li>
+      <li>Mother Name</li>
+      <li>Mother Phone</li>
+      <li>Mother Email</li>
+      <li>Mother Qualification</li>
+      <li>Mother Occupation</li>
+      <li>Mother Income</li>
+      <li>Gaurdian Name</li>
+      <li>Gaurdian Phone</li>
+      <li>Gaurdian Email</li>
+      <li>Gaurdian Qualification</li>
+      <li>Gaurdian Occupation</li>
+      <li>Gaurdian Income</li>
+    </ul>
+      <p class="help-block">If a student with same  <strong>name and date of birth</strong> is supplied, that entry will be ignored </p>
+      <p class="help-block">Student entries <strong>must have</strong> First name, Date Of Birth and Gender as mandatory fields </p>
+    </li>
+    <hr/>
+
+    <li class="has-below-1">
+      <p>Upload the filled template here.</p>
+      <b><%= f.file_field :file %> </b>
+
+    </li>
+    <hr/>
+
+    <%= f.submit "Upload", class: "btn btn-primary" %>
+  </ol>
+<% end %>
+
+</div>
+

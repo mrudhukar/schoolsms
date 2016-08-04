@@ -26,6 +26,10 @@
   </span>
   <% #TBD We can enable multiselect here%>
 
+  <span class="select2-wrapper has-next-1">
+    <%= f.select(:with_academic_year, academic_year_array, {}, { class: 'chosen-select form-control'}) %>
+  </span>
+
   <%# add an automated spinner to your form when the list is refreshed %>
   <%= render_filterrific_spinner %>
 
