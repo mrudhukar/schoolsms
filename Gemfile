@@ -67,4 +67,4 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
 #read input files to update DB
-# gem 'roo'
+gem 'roo'
