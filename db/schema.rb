@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160802005828) do
+ActiveRecord::Schema.define(version: 20160805111512) do
+
+  create_table "messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "content",    limit: 65535
+    t.text     "criteria",   limit: 65535
+    t.text     "response",   limit: 65535
+    t.integer  "status",                   default: 0
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
 
   create_table "parents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id"
@@ -28,14 +37,15 @@ ActiveRecord::Schema.define(version: 20160802005828) do
 
   create_table "student_years", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "student_id"
-    t.integer  "academic_year",                  null: false
-    t.string   "classroom",                      null: false
+    t.integer  "academic_year",                     null: false
+    t.string   "classroom",                         null: false
     t.string   "section"
-    t.string   "branch",        default: "Main", null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "branch",        default: "Main",    null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "roll_number"
     t.boolean  "fees_payed"
+    t.string   "medium",        default: "English"
     t.index ["student_id"], name: "index_student_years_on_student_id", using: :btree
   end
 
