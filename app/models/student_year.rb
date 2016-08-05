@@ -5,6 +5,13 @@ class StudentYear < ApplicationRecord
     BRANCHES = ["Main", "Second"]
   end
 
+  module Medium
+    ENGLISH = "English"
+    TELUGU = "Telugu"
+
+    ALL = [ENGLISH, TELUGU]
+  end
+
   belongs_to :student, inverse_of: :student_years, touch: true
 
   validates :student, presence: true
@@ -15,6 +22,7 @@ class StudentYear < ApplicationRecord
   validates :classroom, presence: true, inclusion: {in: ClassRooms::ALL, message: "%{value} is not a valid class"}
   validates :section, inclusion: {in: ClassRooms::SECTIONS, message: "%{value} is not a valid section"}
   validates :branch, presence: true, inclusion: {in: ClassRooms::BRANCHES, message: "%{value} is not a valid branch"}
+  validates :medium, presence: true, inclusion: {in: Medium::ALL, message: "%{value} is not a valid medium"}
 
   def self.current_year
     date = Date.today

@@ -27,6 +27,7 @@ class Student < ApplicationRecord
   scope :with_branch, ->(branch) { joins(:student_years).where("student_years.branch = ?", branch) }
   scope :with_klass, ->(klass) { joins(:student_years).where("student_years.classroom = ?", klass) }
   scope :with_sections, ->(section) { joins(:student_years).where("student_years.section = ?", section) }
+  scope :with_medium, ->(medium) { joins(:student_years).where("student_years.medium = ?", medium) }
   scope :with_academic_year, ->(year) { joins(:student_years).where("student_years.academic_year = ?", year) }
   scope :with_status, ->(status) {where("students.status = ?", status) }
   scope :search_query, ->(query) { joins(:student_years).where("student_years.roll_number LIKE ? OR students.first_name LIKE ? OR students.last_name LIKE ?", "%#{query}%","#{query}%","#{query}%") }
@@ -43,7 +44,8 @@ class Student < ApplicationRecord
       :with_sections,
       :search_query,
       :with_status,
-      :with_academic_year
+      :with_academic_year,
+      :with_medium
         ]
     )
 

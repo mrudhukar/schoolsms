@@ -42,7 +42,7 @@ class ImportStudent
     header_compare = [
       "first_name","last_name","aadhar_number","phone","email","date_of_birth","gender","mother_tounge","religion","caste","disability","address","ward_type",
       "admission_number","admission_date","admission_class",
-      "branch","class","section","roll_number","fees_payed",
+      "branch", "medium","class","section","roll_number","fees_payed",
       "father_name","father_phone","father_email","father_qualification","father_occupation","father_income",
       "mother_name","mother_phone","mother_email","mother_qualification","mother_occupation","mother_income",
       "gaurdian_name","gaurdian_phone","gaurdian_email","gaurdian_qualification","gaurdian_occupation","gaurdian_income"
@@ -85,6 +85,7 @@ class ImportStudent
         student_year_attrs = {
           academic_year: StudentYear.current_year, 
           branch: row["branch"], 
+          medium: row["medium"], 
           classroom: row["class"], 
           section: row["section"], 
           roll_number: row["roll_number"]

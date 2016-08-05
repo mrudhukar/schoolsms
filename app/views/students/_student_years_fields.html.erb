@@ -1,7 +1,9 @@
 <%= f.input :branch, collection: StudentYear::ClassRooms::BRANCHES, input_html: { class: 'chosen-select' } %>
+<%= f.input :medium, collection: StudentYear::Medium::ALL, input_html: { class: 'chosen-select' } %>
 <%= f.input :classroom, collection: StudentYear::ClassRooms::ALL, input_html: { class: 'chosen-select' } %>
 <%= f.input :section, collection: StudentYear::ClassRooms::SECTIONS, input_html: { class: 'chosen-select' } %>
 <%= f.input :roll_number %>
+<%= f.input :academic_year, collection: academic_year_array, input_html: { class: 'chosen-select' } %>
 
 <div class="form-group string optional student_student_years_fees_payed">
   <label class="string optional col-sm-3 control-label col-xs-12" for="student_student_years_attributes_0_fees_payed">Fees Payed</label>
@@ -9,6 +11,3 @@
     <%= f.input_field :fees_payed, inline_label: 'Yes' %>
   </div>
 </div>
-
-
-<%= f.input :academic_year, collection: academic_year_array, input_html: { class: 'chosen-select' } %>

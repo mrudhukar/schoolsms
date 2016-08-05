@@ -17,6 +17,10 @@
   </span>
 
   <span class="select2-wrapper has-next-1">
+    <%= f.select(:with_medium, StudentYear::Medium::ALL, {include_blank: 'All Media' }, { class: 'chosen-select form-control' }) %>
+  </span>
+
+  <span class="select2-wrapper has-next-1">
     <%= f.select(:with_klass, StudentYear::ClassRooms::ALL, { include_blank: 'All Classes' }, { class: 'chosen-select form-control'}) %>
   </span>
   <% #TBD We can enable multiselect here%>

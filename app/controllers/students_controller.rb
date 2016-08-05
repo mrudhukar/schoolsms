@@ -113,11 +113,11 @@ class StudentsController < ApplicationController
 
   def student_create_params
     all_params = profile_params
-    all_params << {student_years_attributes: [:id, :academic_year, :branch, :section, :classroom, :roll_number, :fees_payed]}
+    all_params << {student_years_attributes: [:id, :medium, :academic_year, :branch, :section, :classroom, :roll_number, :fees_payed]}
     params.require(:student).permit(all_params)
   end
 
   def student_year_params
-    params.require(:student_year).permit(:academic_year, :branch, :section, :classroom, :roll_number, :fees_payed)
+    params.require(:student_year).permit(:academic_year, :medium, :branch, :section, :classroom, :roll_number, :fees_payed)
   end
 end
