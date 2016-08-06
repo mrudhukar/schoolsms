@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20160805111512) do
     t.text     "content",    limit: 65535
     t.text     "criteria",   limit: 65535
     t.text     "response",   limit: 65535
+    t.integer  "send_to"
     t.integer  "status",                   default: 0
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false

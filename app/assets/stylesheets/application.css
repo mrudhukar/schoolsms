@@ -32,7 +32,7 @@ tr.clickable-row { cursor: pointer; }
 }
 
 .red{
-  color: red;
+  color: red !important;
 }
 
 .green{

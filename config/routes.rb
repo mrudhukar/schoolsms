@@ -13,5 +13,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :messages
+
   root 'students#dashboard'
 end

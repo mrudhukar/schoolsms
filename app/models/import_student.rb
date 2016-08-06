@@ -94,37 +94,39 @@ class ImportStudent
 
         student.student_years.build(student_year_attrs)
 
-        if rows["father_name"] || rows["mother_name"] || rows["gaurdian_name"]
+        if row["father_name"] || row["mother_name"] || row["gaurdian_name"]
           parent_attrs = []
           parent_attrs << {
-            name: rows["father_name"],
-            email: rows["father_email"],
-            phone: rows["father_phone"],
-            qualification: rows["father_qualification"],
-            occupation: rows["father_occupation"],
-            income: rows["father_income"],
+            name: row["father_name"],
+            email: row["father_email"],
+            phone: row["father_phone"],
+            qualification: row["father_qualification"],
+            occupation: row["father_occupation"],
+            income: row["father_income"],
             relation: Parent::RelationShip::FATHER
-          } if rows["father_name"]
+          } if row["father_name"]
 
           parent_attrs << {
-            name: rows["mother_name"],
-            email: rows["mother_email"],
-            phone: rows["mother_phone"],
-            qualification: rows["mother_qualification"],
-            occupation: rows["mother_occupation"],
-            income: rows["mother_income"],
+            name: row["mother_name"],
+            email: row["mother_email"],
+            phone: row["mother_phone"],
+            qualification: row["mother_qualification"],
+            occupation: row["mother_occupation"],
+            income: row["mother_income"],
             relation: Parent::RelationShip::MOTHER
-          } if rows["mother_name"]
+          } if row["mother_name"]
 
           parent_attrs << {
-            name: rows["gaurdian_name"],
-            email: rows["gaurdian_email"],
-            phone: rows["gaurdian_phone"],
-            qualification: rows["gaurdian_qualification"],
-            occupation: rows["gaurdian_occupation"],
-            income: rows["gaurdian_income"],
+            name: row["gaurdian_name"],
+            email: row["gaurdian_email"],
+            phone: row["gaurdian_phone"],
+            qualification: row["gaurdian_qualification"],
+            occupation: row["gaurdian_occupation"],
+            income: row["gaurdian_income"],
             relation: Parent::RelationShip::GAURDIAN
-          } if rows["gaurdian_name"]
+          } if row["gaurdian_name"]
+
+          student.parents.build(parent_attrs)
         end
       end
       student
@@ -153,8 +155,8 @@ class ImportStudent
     end
     case File.extname(file.original_filename)
     when ".csv" then Roo::CSV.new(file.path)
-    when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
-    when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
+    when ".xls" then Roo::Excel.new(file.path)
+    when ".xlsx" then Roo::Excelx.new(file.path)
     else raise "Unknown file type: #{file.original_filename}"
     end
    end

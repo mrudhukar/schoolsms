@@ -1,0 +1,66 @@
+<% @breadcrumbs = [link_to('Dashboard', root_path)] %>
+<% @title = "New SMS" %>
+
+<div class="col-xs-12">
+  <div class="ibox">
+    <div class="ibox-content clearfix">
+      <div class="field form-group clearfix">
+        <label class="string required control-label">
+          <abbr title="required">*</abbr>
+          Filters
+        </label>
+
+        <div class="row col-xs-12">
+          <%= form_for_filterrific @filterrific do |f| %>
+            <span class="has-next-1">
+              <%= f.select(:with_relation, recepient_collection, {include_blank: 'All Parents' }, { class: 'chosen-select form-control' }) %>
+            </span>
+            
+            <span class="has-next-1">
+              <%= f.select(:with_branch, StudentYear::ClassRooms::BRANCHES, {include_blank: 'All Branches' }, { class: 'chosen-select form-control' }) %>
+            </span>
+            <span class="has-next-1">
+              <%= f.select(:with_medium, StudentYear::Medium::ALL, {include_blank: 'All Media' }, { class: 'chosen-select form-control' }) %>
+            </span>
+            <span class="has-next-1">
+              <%= f.select(:with_klass, StudentYear::ClassRooms::ALL, { include_blank: 'All Classes' }, { class: 'chosen-select form-control'}) %>
+            </span>
+          <% end %>  
+        </div>
+      </div>
+
+      <br/>
+
+      <div class="field form-group clearfix">
+        <label class="string required control-label">
+          Number of SMS to be sent:
+        </label>
+
+        <div class="row col-xs-12" id="total_students">
+          <%= @parents_count %>
+        </div>
+      </div>
+
+      <br/>
+
+      <%= simple_form_for(@message, html: { class: '' }, :validate => true) do |f| %>
+        <%= f.input :content, input_html: {maxlength: 160} %>
+        <%= render "hidden_filters" %>
+        <div class="form-group">
+          <%= f.button :submit, "Send SMS", class: "btn btn-primary"%>
+          <%= link_to("Cancel", students_path(), class: "btn btn-default") %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#message_content").characterCounter({
+    limit: '160',
+    counterWrapper: 'p',
+    counterCssClass: 'help-block',
+    counterFormat: '%1 characters left',
+    counterExceededCssClass: 'red'
+  });
+</script>

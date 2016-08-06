@@ -1,0 +1,5 @@
+<div id="hidden_message_filters">
+  <% @all_filters.each do |key,value| %>
+    <%= hidden_field_tag "filters[#{key}]",value %> 
+  <% end %>
+</div>

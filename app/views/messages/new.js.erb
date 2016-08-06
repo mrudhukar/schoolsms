@@ -1,0 +1,3 @@
+$("#total_students").html("<%= @parents_count %>");
+<% js = escape_javascript(render(partial: 'messages/hidden_filters')) %>
+$("#hidden_message_filters").replaceWith("<%= js %>");

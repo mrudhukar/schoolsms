@@ -49,7 +49,7 @@ class Student < ApplicationRecord
         ]
     )
 
-  def self.find_by_row
+  def self.find_by_row(row)
     params = {first_name: row["first_name"], gender: row["gender"]}
 
     params[:aadhar_number] = row["aadhar_number"] if row["aadhar_number"]

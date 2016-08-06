@@ -1,5 +1,49 @@
 <% @title = "Welcome #{current_user.name}" %>
 
+<div class="row">
+  <div class="col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <span class="label label-success pull-right">Year 2016</span>
+        <h5>Students</h5>
+      </div>
+      <div class="ibox-content">
+        <h1 class="no-margins"> <%= @students_count %> </h1>
+        <% if @student_increase %>
+          <div class="stat-percent font-bold text-success"> <%= @student_increase.round %>% <i class="fa fa-level-up"></i></div>
+        <% end %>
+        <small>Total Students</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <span class="label label-info pull-right">SMS</span>
+        <h5>SMS Balance</h5>
+      </div>
+      <div class="ibox-content">
+        <h1 class="no-margins"><%= @sms_balance %></h1>
+        <small>Availble Balance</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <span class="label label-info pull-right">Status</span>
+        <h5>Last SMS</h5>
+      </div>
+      <div class="ibox-content">
+        <h1 class="no-margins"><%= show_status(@last_message) %></h1>
+        <small><%= show_message(@last_message) %></small>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="ibox">
   <div class="ibox-title">
     <h5>Actions</h5>
@@ -10,7 +54,7 @@
         <%= link_to("Enter New Admission", new_student_path(), class: "btn btn-primary col-xs-12") %>
       </div>
       <div class="col-xs-12 col-md-3">
-        <%= link_to("Send SMS", new_student_path(), class: "btn btn-primary col-xs-12 disabled") %>
+        <%= link_to("Send SMS", new_message_path(), class: "btn btn-primary col-xs-12") %>
       </div>
       <div class="col-xs-12 col-md-3">
         <%= link_to("Generate TC", new_student_path(), class: "btn btn-primary col-xs-12 disabled") %>

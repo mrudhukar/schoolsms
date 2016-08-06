@@ -2,6 +2,11 @@ class StudentsController < ApplicationController
 
   def dashboard
     @tab = TabConstants::DASHBOARD
+    @students_count = Student.with_academic_year(StudentYear.current_year).count
+    lastyear_count = Student.with_academic_year(StudentYear.current_year - 1).count
+    @student_increase = (@students_count - lastyear_count)/lastyear_count.to_f if lastyear_count > 0
+    @sms_balance = Message.get_current_balance()
+    @last_message = Message.last
   end
 
   def index
