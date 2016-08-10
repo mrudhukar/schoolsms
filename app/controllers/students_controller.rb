@@ -71,7 +71,7 @@ class StudentsController < ApplicationController
 
     @student_year = @student.student_years.new(student_year_params)
     if @student_year.save
-      redirect_to students_path, notice: "Student's class was successfully created."
+      redirect_to students_path, notice: "Student's class was successfully updated."
     else
       render :edit, alert: "Please fix the errors"
     end
