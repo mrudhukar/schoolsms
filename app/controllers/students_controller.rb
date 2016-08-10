@@ -89,6 +89,11 @@ class StudentsController < ApplicationController
       @import_student = ImportStudent.new
     else
       #POST
+      unless params[:import_student]
+        redirect_to import_students_path, alert: "Please select a file"
+        return
+      end
+
       @import_student = ImportStudent.new(params[:import_student])
       if @import_student.save
         redirect_to students_path(), notice: "Imported student records successfully."

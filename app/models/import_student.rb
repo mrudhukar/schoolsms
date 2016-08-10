@@ -19,11 +19,11 @@ class ImportStudent
       true
     else
       if errors.empty?
-      imported_students.each_with_index do |student, index|
-        student.errors.full_messages.each do |message|
-          errors.add :base, "Row #{index+2}: #{message}"
+        imported_students.each_with_index do |student, index|
+          student.errors.full_messages.each do |message|
+            errors.add :base, "Row #{index+2}: #{message}"
+          end
         end
-      end
       end
       false
     end
@@ -70,7 +70,7 @@ class ImportStudent
         student.email = row["email"]
 
         student.date_of_birth = row["date_of_birth"].to_date if row["date_of_birth"]
-        student.gender = row["gender"]
+        student.gender = set_gender(row["gender"])
         student.mother_tounge = row["mother_tounge"]
         student.religion = row["religion"]
         student.caste = row["caste"]
@@ -141,11 +141,20 @@ class ImportStudent
 
   def underscore header
     header.map do |val|
-      val.gsub(/\s+/, "").gsub(/::/, '/').
+      val.strip.gsub(/\s+/, "_").
       gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
       gsub(/([a-z\d])([A-Z])/,'\1_\2').
-      tr("-", "_").
       downcase
+    end
+  end
+
+  def set_gender(value)
+    if ["female","girl"].include?(value)
+      "Female"
+    elsif ["boy","male"].include?(value)
+      "Male"
+    else
+      value
     end
   end
 
