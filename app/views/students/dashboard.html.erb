@@ -37,7 +37,7 @@
       </div>
       <div class="ibox-content">
         <h1 class="no-margins"><%= show_status(@last_message) %></h1>
-        <small><%= show_message(@last_message) %></small>
+        <small>View <%= link_to("message log", messages_path()) %></small>
       </div>
     </div>
   </div>

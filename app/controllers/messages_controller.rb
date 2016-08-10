@@ -20,7 +20,9 @@ class MessagesController < ApplicationController
     set_parameters(params[:filters])
     parent_numbers = @filterrific.find.pluck(:phone)
     @message = Message.new(message_params)
-    @message.criteria = Base64.encode64(Marshal.dump(@all_filters))
+    @message.criteria = Base64.encode64(Marshal.dump(@all_filters.to_hash))
+    @message.send_to = parent_numbers.size
+
     if @message.save
       if @message.send_sms(parent_numbers)
         redirect_to root_path, notice: 'The message has been sent out to #{parent_numbers.size} parents'
@@ -30,6 +32,10 @@ class MessagesController < ApplicationController
     else
       render :new, alert: "Please fix the errorr below"
     end
+  end
+
+  def index
+    @messages = Message.page(params[:page]).per_page(25)
   end
 
   private

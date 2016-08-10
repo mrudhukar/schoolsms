@@ -9,7 +9,7 @@
       {title: "Send SMS to Parents", url: "#"},
       {title: "Edit", url: edit_student_path(@student)},
       {title: "Update Class", url: edit_student_path(@student, syear: true)}, 
-      {title: "Delete", url: @student, options: {method: :delete, data: { :confirm => 'Are you sure?' }}}
+      {title: "Delete", url: @student, options: {method: :delete, data: { :confirm => 'Are you sure, you want to remove the student and all their details?' }}}
     ] 
 }
 %>

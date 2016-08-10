@@ -31,6 +31,9 @@ class Message < ApplicationRecord
     else
       "Error"
     end
+
+    rescue SocketError
+      "Error"
   end
 
   def send_sms(numbers)
@@ -50,7 +53,6 @@ class Message < ApplicationRecord
       invalid = true
     end
 
-    self.send_to = numbers.size
     self.response = Base64.encode64(Marshal.dump(response))
     self.save!
 
@@ -60,6 +62,14 @@ class Message < ApplicationRecord
       self.error_message = response["errors"].collect{|er| er["message"]}.join(", ") if self.status == Status::FAILURE
       return self.status == Status::SUCCESS
     end
+  end
+
+  def criteria_hash
+    self.criteria ? Marshal.load(Base64.decode64(self.criteria)) : {}
+  end
+
+  def response_hash
+    self.response ? Marshal.load(Base64.decode64(self.response)) : {}
   end
 
 end

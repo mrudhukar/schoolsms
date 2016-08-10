@@ -1,0 +1,42 @@
+<% @title = "Message Log" %>
+<% @page_action = {title: "Send New SMS", url: new_message_path() } %>
+
+<div class="ibox">
+  <% if @messages.any? %>
+    <div class="ibox-title">
+      <b>Showing all <%= @messages.total_entries %> messages </b>
+    </div>
+    <div class="ibox-content">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Sent on</th>
+            <th>Status</th>
+            <th>Content</th>
+            <th>Criteria</th>
+            <th>Sent to</th>
+            <th>Response</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @messages.each do |message| %>
+            <tr>
+              <td><%= message.created_at.strftime("%d-%b-%Y, %T") %></td>
+              <td><%= show_status_label(message) %></td>
+              <td><%= message.content %></td>
+              <td><%= show_message_criteria(message) %></td>
+              <td><%= message.send_to %></td>              
+              <td><%= show_message_response(message) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= will_paginate @messages, renderer: BootstrapPagination::Rails %>
+    </div>
+  <% else %>
+    <div class="ibox-title">
+      There are no messages sent!
+    </div>
+  <% end %>  
+</div>

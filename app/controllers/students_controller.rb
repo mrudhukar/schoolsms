@@ -78,7 +78,9 @@ class StudentsController < ApplicationController
   end
 
   def destroy
-    #TBD
+    set_student_and_tab
+    @student.destroy
+    redirect_to students_url, notice: 'Student was successfully removed.'
   end
 
   def import
