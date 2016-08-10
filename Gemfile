@@ -68,3 +68,4 @@ gem 'will_paginate-bootstrap'
 
 #read input files to update DB
 gem 'roo'
+gem 'airbrake', '~> 5.4'
