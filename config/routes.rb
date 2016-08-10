@@ -13,7 +13,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :messages
+  resources :messages do
+    collection do
+      post 'update_status'
+    end
+  end
 
   root 'students#dashboard'
 end

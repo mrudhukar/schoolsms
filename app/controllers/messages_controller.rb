@@ -1,4 +1,6 @@
 class MessagesController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:update_status]
+
   def new
     @tab = TabConstants::DASHBOARD
     @message = Message.new()
@@ -36,6 +38,13 @@ class MessagesController < ApplicationController
 
   def index
     @messages = Message.page(params[:page]).per_page(25)
+  end
+
+  def update_status
+    message = Message.find(params[:customID])
+    response_hash = message.response_hash.merge("#{params[:number]}": {status: params[:status], date_time: params[:date_time]})
+    message.response = Base64.encode64(Marshal.dump(response_hash))
+    message.save!
   end
 
   private

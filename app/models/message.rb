@@ -39,8 +39,10 @@ class Message < ApplicationRecord
   def send_sms(numbers)
     requested_url = 'http://api.textlocal.in/send/?'
 
-    uri = URI.parse(requested_url)     
-    res = Net::HTTP.post_form(uri, 'apiKey': ENV['SMS_API_KEY'], 'message': self.content, 'sender': "SARADA", 'numbers': numbers.join(","), 'custom': self.id)
+    uri = URI.parse(requested_url)
+    params = {'apiKey': ENV['SMS_API_KEY'], 'message': self.content, 'numbers': numbers.join(","), 'custom': self.id}
+    params['sender'] = ENV['SMS_SENDER'] if ENV['SMS_SENDER'].present?
+    res = Net::HTTP.post_form(uri, params)
     response = JSON.parse(res.body)
 
     case response["status"]
