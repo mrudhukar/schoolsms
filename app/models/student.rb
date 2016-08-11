@@ -50,16 +50,24 @@ class Student < ApplicationRecord
     )
 
   def self.find_by_row(row)
-    params = {first_name: row["first_name"], gender: row["gender"]}
-
-    params[:aadhar_number] = row["aadhar_number"] if row["aadhar_number"]
-    params[:admission_number] = row["admission_number"] if row["admission_number"]
-    params[:date_of_birth] = row["date_of_birth"].to_date if row["date_of_birth"]
+    params = {first_name: row["first_name"], gender: row["gender"], date_of_birth: row["date_of_birth"].to_date}
     Student.where(params).first
   end
 
   def current_student_year
-    self.student_years.first
+    self.student_years.where(academic_year: StudentYear.current_year).first
+  end
+
+  def father
+    self.parents.where(relation: Parent::RelationShip::FATHER).first
+  end
+
+  def mother
+    self.parents.where(relation: Parent::RelationShip::MOTHER).first
+  end
+
+  def gauridan
+    self.parents.where(relation: Parent::RelationShip::GAURDIAN).first
   end
 
   def name

@@ -65,39 +65,47 @@ class ImportStudent
       if student.nil?
         student = Student.new
         student.first_name = row["first_name"]
-        student.last_name = row["last_name"]
-        student.aadhar_number = row["aadhar_number"]        
-        student.phone = row["phone"]
-        student.email = row["email"]
-
-        student.date_of_birth = row["date_of_birth"].to_date if row["date_of_birth"]
+        student.date_of_birth = row["date_of_birth"].to_date
         student.gender = set_gender(row["gender"])
-        student.mother_tounge = row["mother_tounge"]
-        student.religion = row["religion"]
-        student.caste = row["caste"]
-        student.disability = row["disability"]
-        student.address = row["address"]
-        student.ward_type = row["ward_type"]
+      end
+        
+      student.last_name = row["last_name"]
+      student.aadhar_number = row["aadhar_number"]        
+      student.phone = row["phone"]
+      student.email = row["email"]
 
-        student.admission_number = row["admission_number"]
-        student.joined_class = row["admission_class"]
-        student.joined_on = row["admission_date"]
+      student.mother_tounge = row["mother_tounge"]
+      student.religion = row["religion"]
+      student.caste = row["caste"]
+      student.disability = row["disability"]
+      student.address = row["address"]
+      student.ward_type = row["ward_type"]
 
-        student_year_attrs = {
-          academic_year: StudentYear.current_year, 
-          branch: row["branch"], 
-          medium: row["medium"], 
-          classroom: row["class"], 
-          section: row["section"], 
-          roll_number: row["roll_number"]
-        }
-        student_year_attrs[:fees_payed] = (row["fees_payed"] == "Yes") if row["fees_payed"]
+      student.admission_number = row["admission_number"]
+      student.joined_class = row["admission_class"]
+      student.joined_on = row["admission_date"]
 
+      student_year_attrs = {
+        academic_year: StudentYear.current_year, 
+        branch: row["branch"], 
+        medium: row["medium"], 
+        classroom: row["class"], 
+        section: row["section"], 
+        roll_number: row["roll_number"]
+      }
+      student_year_attrs[:fees_payed] = (row["fees_payed"] == "Yes") if row["fees_payed"]
+
+      if (current_student_year = student.current_student_year).blank?
         student.student_years.build(student_year_attrs)
+      else
+        current_student_year.update_attributes!(student_year_attrs)
+      end
 
-        if row["father_name"] || row["mother_name"] || row["gaurdian_name"]
-          parent_attrs = []
-          parent_attrs << {
+      if row["father_name"] || row["mother_name"] || row["gaurdian_name"]
+        @parent_attrs = []
+
+        if row["father_name"]
+          father_attrs = {
             name: row["father_name"],
             email: row["father_email"],
             phone: row["father_phone"],
@@ -105,9 +113,12 @@ class ImportStudent
             occupation: row["father_occupation"],
             income: row["father_income"],
             relation: Parent::RelationShip::FATHER
-          } if row["father_name"]
+          }
+          update_parent_if_present(student.father, father_attrs)
+        end
 
-          parent_attrs << {
+        if row["mother_name"]
+          mother_attrs = {
             name: row["mother_name"],
             email: row["mother_email"],
             phone: row["mother_phone"],
@@ -115,9 +126,13 @@ class ImportStudent
             occupation: row["mother_occupation"],
             income: row["mother_income"],
             relation: Parent::RelationShip::MOTHER
-          } if row["mother_name"]
+          }
+          update_parent_if_present(student.mother, mother_attrs)
+        end
+        
 
-          parent_attrs << {
+        if row["gaurdian_name"]
+          gaurdian_attrs = {
             name: row["gaurdian_name"],
             email: row["gaurdian_email"],
             phone: row["gaurdian_phone"],
@@ -125,10 +140,11 @@ class ImportStudent
             occupation: row["gaurdian_occupation"],
             income: row["gaurdian_income"],
             relation: Parent::RelationShip::GAURDIAN
-          } if row["gaurdian_name"]
-
-          student.parents.build(parent_attrs)
+          } 
+          update_parent_if_present(student.gaurdian, gaurdian_attrs)
         end
+
+        student.parents.build(@parent_attrs) if @parent_attrs.any?
       end
       student
     end
@@ -156,6 +172,16 @@ class ImportStudent
       "Male"
     else
       value
+    end
+  end
+
+  def update_parent_if_present(parent, attrs)
+    return if attrs.blank?
+    
+    if parent.present?
+      parent.update_attributes!(attrs)
+    else
+      @parent_attrs << attrs
     end
   end
 

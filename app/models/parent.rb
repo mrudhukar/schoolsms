@@ -14,10 +14,10 @@ class Parent < ApplicationRecord
     uniqueness: { scope: [:student_id, :phone], message: "is already in the system" }
 
   validates :relation, presence: true, allow_blank: false, 
-    inclusion: {in: RelationShip::ALL, message: "%{value} is not a valid gender"}, 
-    uniqueness: { scope: [:student_id, :phone], message: "is already in the system" }
+    inclusion: {in: RelationShip::ALL, message: "%{value} is not a valid relation"}, 
+    uniqueness: { scope: [:student_id], message: "is already in the system" }
 
-  validates :phone, allow_blank: true, length: {is: 10}, numericality: {greater_than: 0}
+  validates :phone, allow_blank: true, length: {is: 10}, format: {with: /\A[+-]?\d+\z/}
 
   scope :with_branch, ->(branch) { joins(student: :student_years).where("student_years.branch = ?", branch) }
   scope :with_klass, ->(klass) { joins(student: :student_years).where("student_years.classroom = ?", klass) }

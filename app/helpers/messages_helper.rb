@@ -31,13 +31,7 @@ module MessagesHelper
   def show_message_response(message)
     return "-" if message.status == Message::Status::PENDING
 
-    rhash = message.response_hash
-
-    if message.status == Message::Status::SUCCESS
-      "Successful sent to #{message.send_to} parents"
-    elsif message.status == Message::Status::FAILURE
-      "Failed to deliver"
-    end
+    message.response_hash.collect{|k,v| "#{k}: #{v}"}.join(", ")
   end
 
   def recepient_collection
