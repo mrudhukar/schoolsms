@@ -15,92 +15,175 @@
 %>
 
 
-<div class="row m-b-lg m-t-lg">
+<div class="row m-b-lg">
   <div class="col-md-6">
-      <div class="profile-image">
-        <%= student_logo(@student) %>
-      </div>
-      <div class="profile-info">
-        <div class="">
-          <div>
-            <h2 class="no-margins">
-              <%= @student.name %>
-            </h2>
-            <h4>A current <%= sy.academic_year %> class <%= sy.classroom %> student </h4>
-
-            <div class="small">
-              Phone: <%= @student.phone.present? ? link_to(@student.phone, "tel:#{@student.phone}") : "-"%>
-              <br/>
-              Email: <%= @student.email.present? ? mail_to(@student.email) : "-"%> 
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="profile-image">
+      <%= student_logo(@student) %>
     </div>
-    <div class="col-md-6">
-        <table class="table small m-b-xs">
-          <tbody>
-            <tr>
-              <td>
-                Branch: <strong><%= sy.branch %></strong>
-              </td>
-              <td>
-                 Class: <strong><%= sy.classroom %> - <%= sy.section %></strong>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Gender: <strong><%= @student.gender %></strong>
-              </td>
-              <td>
-                Caste: <strong><%= @student.caste %></strong>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Date of Birth: <strong><%= @student.date_of_birth.strftime("%B %d, %Y") %></strong>
-              </td>
-              <td>
-                Joined School In: <strong><%= @student.joined_on.try(:year) || "-" %></strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-    </div>
-</div>
-
-
-<div class="row">
-<% @student.parents.each do |parent| %>
-  <div class="col-lg-4">
-    <div class="contact-box">
-      <div class="row no-margin">
-        <div class="col-sm-4">
-          <div class="text-center">
-            <%= parent_logo(parent) %>
-            <div class="m-t-xs font-bold"><%= parent.relation %></div>
+    <div class="profile-info">
+      <div class="">
+        <div>
+          <h2 class="m-b-xs m-t-sm"> 
+            <%= @student.name %>
+          </h2>
+          <div class="m-b-xs small">
+            <i class="fa fa-map-marker dim"></i> 
+            <%= @student.address.present? ? link_to(@student.address, "http://maps.google.com/?q=#{URI.escape(@student.address)}", target: "_blank") : content_tag(:i, "Not Available", class: "dim") %>
           </div>
-        </div>
-        <div class="col-sm-8">
-          <h3><strong><%= parent.name %></strong></h3>
-          <p><i class="fa fa-map-marker dim"></i> Not Available</p>
-          <address>
-            <abbr title="Phone">Phone:</abbr> <%= parent.phone.present? ? link_to(parent.phone, "tel:#{parent.phone}") : "-"%><br/>
-            <abbr title="Phone">Email:</abbr> <%= parent.email.present? ? mail_to(parent.email) : "-"%>
-          </address>
-        </div>  
-      </div>
-      
-      <div class="contact-box-footer">
-        <div class="m-t-xs btn-group">
-            <a class="btn btn-xs btn-white"><i class="fa fa-phone"></i> Call </a>
-            <a class="btn btn-xs btn-white"><i class="fa fa-envelope"></i> SMS </a>
-            <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Email</a>
+
+          <div class="small">
+            <% if @student.phone.present? %>
+              <i class="glyphicon glyphicon-earphone" title="Phone"></i> <%= link_to(@student.phone, "tel:#{@student.phone}") %> &nbsp;&nbsp;
+            <% end %>
+            <% if @student.email.present? %>
+              <i class="glyphicon glyphicon-envelope" title="Email"></i> <%= mail_to(@student.email) %> 
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
   </div>
-<% end %>
+  <div class="col-md-6">
+    <table class="table small m-b-xs m-t-sm">
+      <tbody>
+        <tr>
+          <td>
+            Branch: <strong><%= sy.branch %></strong>
+          </td>
+          <td>
+            Medium: <strong><%= sy.medium %></strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Class: <strong><%= sy.classroom %> - <%= sy.section %></strong>
+          </td>
+          <td>
+            Rollnumber: <strong><%= sy.roll_number %></strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="ibox">
+      <div class="ibox-title">
+        <h5>Profile Information</h5>
+        <div class="ibox-tools">
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <dl class="dl-horizontal dl-left">
+          <dt>Aadhar Number</dt>
+          <dd><%= @student.aadhar_number.presence || content_tag(:i, "-", class: "dim") %></dd>
+
+          <dt>Date of Birth</dt>
+          <dd><%= @student.date_of_birth.strftime("%B %d, %Y") %></dd>
+
+          <dt>Gender</dt>
+          <dd><%= @student.gender %></dd>
+
+          <dt>Mother Tounge</dt>
+          <dd><%= @student.mother_tounge.presence || content_tag(:i, "-", class: "dim") %></dd>
+
+          <dt>Religion</dt>
+          <dd><%= @student.religion.presence || content_tag(:i, "-", class: "dim") %></dd>
+
+          <dt>Caste</dt>
+          <dd><%= @student.caste.presence || content_tag(:i, "-", class: "dim") %></dd>
+
+          <dt>Disability</dt>
+          <dd><%= @student.disability.presence || content_tag(:i, "None", class: "dim")%></dd>
+
+          <dt>Ward Type</dt>
+          <dd><%= @student.ward_type.presence || content_tag(:i, "-", class: "dim")%></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="ibox">
+      <div class="ibox-title">
+        <h5>Admission Information</h5>
+        <div class="ibox-tools">
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <dl class="dl-horizontal dl-left">
+          <dt>Admission Number</dt>
+          <dd><%= @student.admission_number.presence || content_tag(:i, "-", class: "dim") %></dd>
+
+          <dt>Admission Date</dt>
+          <dd><%= @student.joined_on.try(:year) || "-" %></dd>
+
+          <dt>Admission Class</dt>
+          <dd><%= @student.joined_class.presence || content_tag(:i, "-", class: "dim") %></dd>
+        </dl>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="ibox">
+      <div class="ibox-title">
+        <h5>Parents Information</h5>
+        <div class="ibox-tools">
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+          </a>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <% @student.parents.each do |parent| %>
+            <div class="row no-margin">
+              <div class="col-sm-2">
+                <div class="text-center">
+                  <%= parent_logo(parent) %>
+                  <div class="m-t-xs font-bold"><%= parent.relation %></div>
+                </div>
+              </div>
+              <div class="col-sm-10">
+                <h3><strong><%= parent.name %></strong></h3>
+                <address class="small">
+                  <i class="glyphicon glyphicon-earphone" title="Phone"></i> &nbsp;
+                  <%= parent.phone.present? ? link_to(parent.phone, "tel:#{parent.phone}") : content_tag(:i, "Not Available", class: "dim") %> 
+                  <br/>
+                  <i class="glyphicon glyphicon-envelope" title="Email"></i>  &nbsp;
+                  <%= parent.email.present? ? mail_to(parent.email) : content_tag(:i, "Not Available", class: "dim") %>
+                </address>
+              </div>
+            </div>
+            <div class="row no-margin">
+              <dl class="dl-horizontal dl-left">
+                <dt>Qualification</dt>
+                <dd><%= parent.qualification.presence || content_tag(:i, "-", class: "dim") %></dd>
+
+                <dt>Occupation</dt>
+                <dd><%= parent.occupation.presence || content_tag(:i, "-", class: "dim")%></dd>
+
+                <dt>Income</dt>
+                <dd><%= parent.income.presence || content_tag(:i, "-", class: "dim")%></dd>
+              </dl>
+            </div>
+
+            <hr class="m-t-none m-b-md" />
+          <% end %>
+
+      </div>
+    </div>
+  </div>
+
 
   
 </div>

@@ -10,3 +10,13 @@
   border-top-style: solid;
 }
 
+.dl-horizontal {
+    dd {
+    margin-bottom: 10px;
+  }
+}
+
+.dl-horizontal.dl-left dt{
+  text-align: left;
+}
+
