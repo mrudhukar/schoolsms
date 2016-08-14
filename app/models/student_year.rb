@@ -13,6 +13,7 @@ class StudentYear < ApplicationRecord
   end
 
   belongs_to :student, inverse_of: :student_years, touch: true
+  has_many :attendances, dependent: :destroy
 
   validates :student, presence: true
   validates :academic_year, presence: true, inclusion: { in: 2014..Date.today.year }, 

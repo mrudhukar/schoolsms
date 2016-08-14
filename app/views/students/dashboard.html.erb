@@ -12,7 +12,7 @@
         <% if @student_increase %>
           <div class="stat-percent font-bold text-success"> <%= @student_increase.round %>% <i class="fa fa-level-up"></i></div>
         <% end %>
-        <small>Total Students</small>
+        <small>Total Students (<%= link_to("view all &raquo;".html_safe, students_path()) %>)</small>
       </div>
     </div>
   </div>
@@ -49,13 +49,18 @@
     <h5>Actions</h5>
   </div>
   <div class="ibox-content">
-    <div class="row">
+    <div class="row m-b-md">
       <div class="col-xs-12 col-md-3">
         <%= link_to("Enter New Admission", new_student_path(), class: "btn btn-primary col-xs-12") %>
       </div>
       <div class="col-xs-12 col-md-3">
         <%= link_to("Send SMS", new_message_path(), class: "btn btn-primary col-xs-12") %>
       </div>
+      <div class="col-xs-12 col-md-3">
+        <%= link_to("Attendance - Record Absentees", attendances_path(), class: "btn btn-primary col-xs-12") %>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-xs-12 col-md-3">
         <%= link_to("Generate TC", new_student_path(), class: "btn btn-primary col-xs-12 disabled") %>
       </div>

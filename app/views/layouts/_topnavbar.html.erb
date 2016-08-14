@@ -20,7 +20,7 @@
       <% if user_signed_in? %>
         <li>
           <span class="m-r-sm text-muted welcome-message">
-            Academic Year: <%= StudentYear.current_year %>
+            Academic Year: <%= StudentYear.current_year %> - <%= StudentYear.current_year + 1 %>
           </span>
         </li>
         <li class="dropdown">

@@ -19,5 +19,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :attendances
+
   root 'students#dashboard'
 end

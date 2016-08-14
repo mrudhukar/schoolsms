@@ -1,0 +1,48 @@
+<div class="ibox" id="filterrific_results">
+  <% if !@show_attendance %>
+    <div class="ibox-title">
+      Please select branch, medium, class and section to see the attendance of students
+    </div>
+  <% elsif students.any? %>
+    <div class="ibox-title" style="text-align: center">
+      
+      <% last_week = @date_range.first - 7 %>
+      <% next_week = @date_range.last + 1 %>
+      <div>
+        <%= link_to(content_tag(:i,"",class:"glyphicon glyphicon-chevron-left"), attendances_path(start_date: last_week), class: "btn btn-white") %>
+        <b><%= @date_range.first.strftime("%B %d") %> - <%= @date_range.last.strftime("%B %d") %></b>
+        <%= link_to(content_tag(:i,"",class:"glyphicon glyphicon-chevron-right"), attendances_path(start_date: next_week), class: "btn btn-white") %>
+      </div>
+      
+      
+    </div>
+    <div class="ibox-content p-xxs">
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th class="p-xxs">Name / Rollnumber</th>
+              <% @date_range.each do |day| %>
+                <% klass_day = (day.to_s == Date.today.to_s) ? "alert-warning" : nil %>
+                <% klass_day ||=  (day.strftime("%A") == "Sunday") ? "holiday-col" : "" %>
+                <th class="small p-xxs <%= klass_day %>"><%= day.strftime("%A, %e") %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% student_years.each do |student_year| %>
+              <% student_atts = @attendances[student_year.id] %>
+              <tr id="attendance_<%= student_year.id %>">
+                <%= render(partial: 'attendances/student_year_attendance', locals: {student_atts: student_atts, student_year: student_year}) %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% else %>
+    <div class="ibox-title">
+      There are no students in this class
+    </div>
+  <% end %>  
+</div>

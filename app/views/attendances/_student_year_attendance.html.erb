@@ -1,0 +1,9 @@
+<% student = student_year.student %>
+<td class="p-xxs"><%= link_to(student.name, student) %> <br/> <%= student_year.roll_number %> </td>
+<% @date_range.each do |day| %>
+  <% klass_day = (day.to_s == Date.today.to_s) ? "alert-warning" : nil %>
+  <% klass_day ||=  (day.strftime("%A") == "Sunday") ? "holiday-col" : "" %>
+  <td class="small p-xxs <%= klass_day %>">
+    <%= display_attendance(student_atts, day, student_year.id)%>
+  </td>
+<% end %>

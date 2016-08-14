@@ -1,0 +1,5 @@
+<% @title = "Attendance" %>
+
+<%= render(partial: 'attendances/class_selection') %>
+
+<%= render(partial: 'attendances/attendance_list', locals: { students: @students, student_years: @student_years} ) %>

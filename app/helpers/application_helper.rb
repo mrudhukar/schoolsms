@@ -58,4 +58,23 @@ module ApplicationHelper
       full_content
     end
   end
+
+  def full_drop_down_button(content, klass, actions)
+    content_tag(:div, class: "btn-group btn-group-xs", title: content) do
+      full_content = content_tag(:button, data: {toggle: "dropdown"}, class: "btn #{klass} dropdown-toggle") do
+        content_tag(:span, content.chars[0])
+      end
+
+      full_content += content_tag(:ul, class: "dropdown-menu") do 
+        sub_links = ""
+        actions.each do |ac|
+          sub_links += content_tag(:li, ac)
+        end
+        raw sub_links
+      end
+
+      full_content
+    end
+    
+  end
 end

@@ -2,6 +2,8 @@
 <% @title = @student.name %>
 <% sy = @student.current_student_year %>
 
+<% phone_numbers = @student.parents.pluck(:phone) %>
+
 
 <% @page_actions = {
   title: "Actions", 
@@ -13,7 +15,6 @@
     ] 
 }
 %>
-
 
 <div class="row m-b-lg">
   <div class="col-md-6">

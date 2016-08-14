@@ -1,0 +1,2 @@
+<% js = escape_javascript(render(partial: 'attendances/attendance_list', locals: {students: @students, student_years: @student_years})) %>
+$("#filterrific_results").replaceWith("<%= js %>");
