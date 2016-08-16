@@ -50,7 +50,8 @@ class ImportStudent
     ]
     begin
       header = underscore spreadsheet.row(1)
-      return load_error 'First row of the sheet needs to have all the columns listed below' if header != header_compare
+      unequal_arrays = (header_compare-header).any? || (header-header_compare).any?
+      return load_error "First row of the sheet needs to have all the columns listed below #{(header_compare-header).join(",")} -- #{(header-header_compare).join(",")}" if unequal_arrays
 
       rescue NoMethodError
         return load_error 'First row of the sheet needs to have all the columns listed below'
