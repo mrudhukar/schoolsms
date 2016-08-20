@@ -50,7 +50,7 @@ class Student < ApplicationRecord
     )
 
   def self.find_by_row(row)
-    params = {first_name: row["first_name"], gender: row["gender"], date_of_birth: row["date_of_birth"].to_date}
+    params = {first_name: row["first_name"], gender: row["gender"], date_of_birth: row["date_of_birth"].to_date, last_name: row["last_name"]}
     Student.where(params).first
   end
 
@@ -76,5 +76,4 @@ class Student < ApplicationRecord
     fullname
   end
 
-  
 end

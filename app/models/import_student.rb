@@ -20,6 +20,7 @@ class ImportStudent
     else
       if errors.empty?
         imported_students.each_with_index do |student, index|
+          next if student.valid?
           student.errors.full_messages.each do |message|
             errors.add :base, "Row #{index+2}: #{message}</br>"
             return false if index > 5 #This is to make sure we don't run out of memory
