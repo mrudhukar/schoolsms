@@ -52,7 +52,7 @@ module MessagesHelper
       attrs = val[:value].parameters.collect{|v| v[1].to_s}
       inputs = attrs.collect do |c|
         ekey, length = get_name_length(c)
-        text_field_tag("values[]",nil, size: length.to_i+5, maxlength: length, placeholder: "E.g. #{val[:example][ekey.to_sym]}")
+        text_field_tag("values[]",nil, size: length.to_i+5, maxlength: length, placeholder: "E.g. #{val[:example][ekey.to_sym]}", required: true)
       end
       hash[key] = {content: raw(val[:value].call(inputs.size > 1 ? inputs : inputs[0])), type: val[:type]}
     end
