@@ -4,13 +4,18 @@
 <div class="col-xs-12">
   <div class="ibox">
     <div class="ibox-content clearfix">
-      <div class="field form-group clearfix">
+
+      <div class="field form-group select optional message_template m-b-lg">
+        <label class="select optional control-label" for="message_template">Choose Message Type</label>
+        <%= select_tag("template", options_for_select(template_collection), class: "select optional form-control", include_blank: "Select a message") %>
+      </div>
+
+      <div class="field form-group clearfix" id="message_filters" style="display:none;">
         <label class="string required control-label">
-          <abbr title="required">*</abbr>
-          Filters
+          Filters Students for SMS
         </label>
 
-        <div class="row col-xs-12">
+        <div class="row col-xs-12 m-b-md">
           <%= form_for_filterrific @filterrific do |f| %>
             <span class="has-next-1">
               <%= f.select(:with_relation, recepient_collection, {include_blank: 'All Parents' }, { class: 'chosen-select form-control' }) %>
@@ -23,15 +28,13 @@
               <%= f.select(:with_medium, StudentYear::Medium::ALL, {include_blank: 'All Media' }, { class: 'chosen-select form-control' }) %>
             </span>
             <span class="has-next-1">
-              <%= f.select(:with_klass, StudentYear::ClassRooms::ALL, { include_blank: 'All Classes' }, { class: 'chosen-select form-control'}) %>
+              <%= f.select(:with_klass, StudentYear::ClassRooms::ALL, {include_blank: 'All Classes'}, {class:'chosen-select form-control'}) %>
             </span>
           <% end %>  
         </div>
       </div>
 
-      <br/>
-
-      <div class="field form-group clearfix">
+      <div class="field form-group clearfix" id="total_messages" style="display:none;">
         <label class="string required control-label">
           Number of SMS to be sent:
         </label>
@@ -41,12 +44,27 @@
         </div>
       </div>
 
-      <br/>
+      <div class="field form-group clearfix" id="absent_messages" style="display:none;">
+        <label class="string required control-label">
+          Number of SMS to be sent:
+        </label>
+
+        <div class="row col-xs-12">
+          <%= @absentee_parents %>
+        </div>
+      </div>
 
       <%= simple_form_for(@message, html: { class: '' }, :validate => true) do |f| %>
-        <%= f.input :content, input_html: {maxlength: 160} %>
+        <%= hidden_field_tag "message[template]", "" %> 
+
+        <div class="field form-group clearfix m-t-lg m-b-lg" id="message_display_template" style="display:none;">
+          <label class="string required control-label">Message:</label>
+          <div class="row col-xs-12" id="display_content"></div>
+        </div>
+
+
         <%= render "hidden_filters" %>
-        <div class="form-group">
+        <div class="form-group" id="submit_actions" style="display:none;">
           <%= f.button :submit, "Send SMS", class: "btn btn-primary"%>
           <%= link_to("Cancel", root_path(), class: "btn btn-default") %>
         </div>
@@ -56,11 +74,34 @@
 </div>
 
 <script type="text/javascript">
-  $("#message_content").characterCounter({
-    limit: '160',
-    counterWrapper: 'p',
-    counterCssClass: 'help-block',
-    counterFormat: '%1 characters left',
-    counterExceededCssClass: 'red'
+  var templateHASH = <%= raw message_templates.to_json %>;
+
+  $("#template").change(function(){
+    if(this.value == null || this.value == ""){
+      $("#message_filters").hide();
+      $("#message_display_template").hide();
+      $("#total_messages").hide();
+      $("#absent_messages").hide();
+      $("#submit_actions").hide();
+    }else {
+      if(templateHASH[this.value]["type"] == "1"){
+        $("#message_filters").show();
+        $("#message_display_template").show();
+        $("#total_messages").show();
+        $("#absent_messages").hide();
+        $("#submit_actions").show();
+      }else{
+        $("#message_filters").hide();
+        $("#message_display_template").hide();
+        $("#total_messages").hide();
+        $("#absent_messages").show();
+        $("#submit_actions").show();
+      }
+      $("#display_content").html(templateHASH[this.value]["content"]);
+    }
+    
+    $("#message_template").val(this.value);
   });
+
+
 </script>

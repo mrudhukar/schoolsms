@@ -32,6 +32,8 @@ class Student < ApplicationRecord
   scope :with_status, ->(status) {where("students.status = ?", status) }
   scope :search_query, ->(query) { joins(:student_years).where("student_years.roll_number LIKE ? OR students.first_name LIKE ? OR students.last_name LIKE ?", "%#{query}%","#{query}%","#{query}%") }
 
+  scope :absentees, ->(date) {joins(student_years: :attendances).where("attendances.absent_on = ?", date)}
+
   accepts_nested_attributes_for :student_years, :reject_if => :all_blank
   accepts_nested_attributes_for :parents, :reject_if => :all_blank, :allow_destroy => true
   validates_associated :student_years

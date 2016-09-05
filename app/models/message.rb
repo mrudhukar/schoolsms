@@ -16,7 +16,7 @@ class Message < ApplicationRecord
   validates :status, presence: true, inclusion: {in: Status::ALL, message: "%{value} is not a valid class"}
   validates :criteria, presence: true
 
-  attr_accessor :error_message
+  attr_accessor :error_message, :template
 
   
   def self.get_current_balance
@@ -36,12 +36,28 @@ class Message < ApplicationRecord
       "Error"
   end
 
+  def self.send_absentee_sms
+    total_sms = 0
+    Student.absentees(Date.today).each do |student|
+      parent_numbers = student.parents.with_number("")
+      next if parent_numbers == 0
+
+      message = Message.create!(
+        content: MessageTemplates::ALL[:message_to_absentees][:value].call(student.first_name),
+        criteria: Base64.encode64(Marshal.dump("absentees": "true", "to": student.name)),
+        send_to: parent_numbers.size
+      )
+      status = message.send_sms(parent_numbers)
+      total_sms += parent_numbers if status
+    end
+    total_sms
+  end
+
   def send_sms(numbers)
     requested_url = 'http://api.textlocal.in/send/?'
 
     uri = URI.parse(requested_url)
-    params = {'apiKey': ENV['SMS_API_KEY'], 'message': self.content, 'numbers': numbers.join(","), 'custom': self.id}
-    params['sender'] = ENV['SMS_SENDER'] if ENV['SMS_SENDER'].present?
+    params = {'apiKey': ENV['SMS_API_KEY'], 'message': ERB::Util.url_encode(self.content), 'numbers': numbers.join(","), 'custom': self.id, 'sender': ENV['SMS_SENDER']}
     res = Net::HTTP.post_form(uri, params)
     response = JSON.parse(res.body)
 
@@ -78,6 +94,4 @@ end
 
 
 #TODO
-# Setup recepient infrastructure
-# Close on the sender (transactional messages)
 # SMS Alert to admins on low sms balance

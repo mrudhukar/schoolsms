@@ -41,10 +41,33 @@ module MessagesHelper
     ]
   end
 
+  def template_collection
+    MessageTemplates::ALL.select{|key, value| value[:type] != 2 }.collect{|key, value| [value[:name], key.to_s]}
+  end
+
+  def message_templates
+    hash = {}
+    MessageTemplates::ALL.each_pair do |key, val|
+      next if val[:type] == 2 
+      attrs = val[:value].parameters.collect{|v| v[1].to_s}
+      inputs = attrs.collect do |c|
+        ekey, length = get_name_length(c)
+        text_field_tag("values[]",nil, size: length.to_i+5, maxlength: length, placeholder: "E.g. #{val[:example][ekey.to_sym]}")
+      end
+      hash[key] = {content: raw(val[:value].call(inputs.size > 1 ? inputs : inputs[0])), type: val[:type]}
+    end
+
+    hash
+  end
+
   private
 
   def cleanup_keys(string)
-    string.gsub('with_','').gsub('klass','class').capitalize
+    string.to_s.gsub('with_','').gsub('klass','class').capitalize
+  end
+
+  def get_name_length(attribute)
+    attribute.split("_")
   end
 
 end

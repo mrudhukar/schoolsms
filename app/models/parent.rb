@@ -25,7 +25,7 @@ class Parent < ApplicationRecord
   scope :with_relation, ->(relation) { where("parents.relation = ?", relation) }
   scope :with_academic_year, ->(year) { joins(student: :student_years).where("student_years.academic_year = ?", year) }
   scope :with_number, ->(status) { where("parents.phone IS NOT NULL") }
-  
+  scope :with_absentee_children_on, ->(date) {joins(student: {student_years: :attendances}).where("attendances.absent_on = ?", date)}
 
   filterrific(
     available_filters: [
