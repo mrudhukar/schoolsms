@@ -13,6 +13,7 @@
             <th>Class</th>
             <th>Section</th>
             <th>Rollnumber</th>
+            <th>Days of leave</th>
             <th></th>
           </tr>
         </thead>
@@ -26,12 +27,12 @@
               <td><%= current_student_year.classroom %></td>
               <td><%= current_student_year.section %></td>
               <td><%= current_student_year.roll_number %></td>
+              <td><%= show_attendance_link(current_student_year) %></td>
               
               <td>
                 <%= drop_down_button([
                   link_to('Edit', edit_student_path(student)), 
-                  link_to('Update Class', edit_student_path(student, syear: true)),
-                  link_to('Send SMS', "", data: {confirm: 'Are you sure?'})
+                  link_to('Update Class', edit_student_path(student, syear: true))
                 ])%>
               </td>
             </tr>

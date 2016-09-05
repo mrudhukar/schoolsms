@@ -45,6 +45,16 @@ class AttendancesController < ApplicationController
     redirect_to attendances_path()
   end
 
+  def show_student
+    student_year = StudentYear.find(params[:syid])
+    @attendances = student_year.attendances.order("absent_on DESC")
+    @student = student_year.student
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
   private
 
   def set_month_and_tab

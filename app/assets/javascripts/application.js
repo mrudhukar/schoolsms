@@ -40,3 +40,33 @@ jQuery(function() {
     startDate: "11/05/1987"
   });
 });
+
+var ready = function reloadOnAjaxResponse(){  
+  initialize.remoteModal();
+};
+
+$(document).ready(ready);
+
+// TODO move to initialize file
+var initialize = {
+  remoteModal: function(){
+    $("a[data-remotemodal='true']").click(function(e){
+      //TODO Clean this up and make it generic
+      $.ajax({
+        type:"GET",
+        dataType: 'html',
+        url: e.currentTarget.href, 
+        beforeSend: function (request)
+        { 
+          var token = $("meta[name='csrf-token']").attr("content");
+          request.setRequestHeader("X-CSRF-Token", token);
+        }
+      }).done(function(data) {
+            $('#myModal').html(data);
+            $('#myModal').modal('show');
+      });
+
+      e.preventDefault();
+    });
+  }
+};

@@ -37,4 +37,13 @@ module AttendancesHelper
   def mark_evening_absent(day, syid)
     link_to("Mark Evening Absent", attendances_path(syid: syid, day: day, abtype: Attendance::AbsentType::EVENING), method: :post)
   end
+
+  def show_attendance_link(student_year)
+    if student_year.attendances.size == 0
+      0
+    else
+      count = student_year.attendances.collect{|at| Attendance::AbsentType::VALUE_HASH[at.absent_type]}.sum
+      link_to(count, show_student_attendances_path(syid: student_year, format: :js), data: {remotemodal: "true"})
+    end
+  end
 end

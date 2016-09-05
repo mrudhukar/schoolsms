@@ -1,0 +1,20 @@
+<% modal("#{@student.name}'s days of leave") do %>
+  <div class="ibox-content">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Leave type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @attendances.each do |att| %>
+          <tr>
+            <td><%= att.absent_on.strftime("%A, %B %e, %Y") %> </td>
+            <td><%= Attendance::AbsentType::TEXT_HASH[att.absent_type] %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table
+  </div>
+<% end %>

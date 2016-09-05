@@ -19,7 +19,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :attendances
+  resources :attendances do
+    collection do
+      get 'show_student'
+    end
+  end
 
   root 'students#dashboard'
 end

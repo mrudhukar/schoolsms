@@ -4,6 +4,18 @@ class Attendance < ApplicationRecord
     MORNING = 1
     EVENING = 2
     ALL = [FULLDAY, MORNING, EVENING]
+
+    TEXT_HASH = {
+      FULLDAY => "Full Day absent",
+      MORNING => "Absent in the morning",
+      EVENING => "Absent in the evening"
+    }
+
+    VALUE_HASH = {
+      FULLDAY => 1,
+      MORNING => 0.5,
+      EVENING => 0.5
+    }
   end
 
   belongs_to :student_year

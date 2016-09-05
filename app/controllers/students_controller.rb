@@ -18,7 +18,7 @@ class StudentsController < ApplicationController
       Student,
       all_filters,
     ) or return
-    @students = @filterrific.find.includes(:student_years).page(params[:page]).per_page(20)
+    @students = @filterrific.find.includes(student_years: :attendances).page(params[:page]).per_page(20)
 
     respond_to do |format|
       format.html

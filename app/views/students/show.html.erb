@@ -8,7 +8,6 @@
 <% @page_actions = {
   title: "Actions", 
   actions: [
-      {title: "Send SMS to Parents", url: "#"},
       {title: "Edit", url: edit_student_path(@student)},
       {title: "Update Class", url: edit_student_path(@student, syear: true)}, 
       {title: "Delete", url: @student, options: {method: :delete, data: { :confirm => 'Are you sure, you want to remove the student and all their details?' }}}
@@ -54,10 +53,13 @@
           <td>
             Medium: <strong><%= sy.medium %></strong>
           </td>
+          <td>
+            Class: <strong><%= sy.classroom %> - <%= sy.section %></strong>
+          </td>
         </tr>
         <tr>
           <td>
-            Class: <strong><%= sy.classroom %> - <%= sy.section %></strong>
+            Days of Leave: <strong><%= show_attendance_link(sy) %></strong>
           </td>
           <td>
             Rollnumber: <strong><%= sy.roll_number %></strong>
